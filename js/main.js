@@ -8,15 +8,17 @@ function setCanvasSizes(){
 	var twodfin = document.getElementById("2dfin");
 	var threedmain = document.getElementById("3dmain");
 	var threedfin = document.getElementById("3dfin");
+	var datafield = document.getElementById("twodfin");
 
 	twodmain.width = ($("#twodmain").width()/100) * (window.innerWidth*($(".container").width()/window.innerWidth));
 	twodmain.height = (window.innerHeight*0.69); //lol, but don't make it 0.7, for real, no one like the scroll bar
-	twodfin.width = ($("#twodfin").width()/100) * (window.innerWidth*($(".container").width()/window.innerWidth));
-	twodfin.height = (window.innerHeight*0.69);
-	threedmain.width = ($("#threedmain").width()/100) * (window.innerWidth*($(".container").width()/window.innerWidth));
-	threedmain.height = (window.innerHeight*0.69);
-	threedfin.width = ($("#threedfin").width()/100) * (window.innerWidth*($(".container").width()/window.innerWidth));
-	threedfin.height = (window.innerHeight*0.69);
+	datafield.height = (window.innerHeight*0.69);
+	//twodfin.width = ($("#twodfin").width()/100) * (window.innerWidth*($(".container").width()/window.innerWidth));
+	//twodfin.height = (window.innerHeight*0.69);
+	//threedmain.width = ($("#threedmain").width()/100) * (window.innerWidth*($(".container").width()/window.innerWidth));
+	//threedmain.height = (window.innerHeight*0.69);
+	//threedfin.width = ($("#threedfin").width()/100) * (window.innerWidth*($(".container").width()/window.innerWidth));
+	//threedfin.height = (window.innerHeight*0.69);
 }
 
 function invalidateCanvases(){
@@ -58,24 +60,23 @@ $("#continueButton").click(function() {
 $("#continueDefaultButton").click(function() {
 	$("#inputvars").hide();
 	$("#visibilityWrapper").show();
-	//TODO CHANGE DUMMY VALUES
-	rocketDiameter = 1;
-	caliber = 1;
-	rocketMass = 1;
-	rocketVelocity = 1;
-	thetaPitch = 1;
-	omegaPitch = 1;
-	thetaYaw = 1;
-	omegaYaw = 1;
-	rocketLength = 1;
-	airDensity = 1;
-	dragCoefficent = 1; //approximated by long cylinder with nose cone
-	timeStep = 1;
+	rocketDiameter = 0.3;
+	caliber = 2;
+	rocketMass = 120;
+	rocketVelocity = 1372;
+	thetaPitch = 7;
+	omegaPitch = 0;
+	thetaYaw = 5;
+	omegaYaw = 0;
+	rocketLength = 6.5;
+	airDensity = 0.03;
+	dragCoefficent = 0.5; //approximated by long cylinder with nose cone
+	timeStep = 2;
 	proportionalGain = 1;
-	integrativeGain = 1;
-	derivativeGain = 1;
+	integrativeGain = 0;
+	derivativeGain = 0;
 	controlSurfaceArea = 1;
-	simulationLength = 1;
+	simulationLength = 500;
 	preprocessing();
 });
 
@@ -97,12 +98,13 @@ function preprocessing(){
 		}
 	});
 	timeControls.initialized = true;
+	rocketRender.setLocs();
 }
 
 var twodmainCanvas = document.getElementById('2dmain');
-var twodfinCanvas = document.getElementById('2dfin');
+//var twodfinCanvas = document.getElementById('2dfin');
 var ctxMain = twodmainCanvas.getContext('2d');
-var ctxFin = twodfinCanvas.getContext('2d');
+//var ctxFin = twodfinCanvas.getContext('2d');
 var raf;
 var firstIterationDone = false;
 
@@ -110,8 +112,8 @@ function draw(){
 	ctxMain.fillStyle="rgba(255,255,255,1)";
 	ctxMain.fillRect(0,0,twodmainCanvas.width,twodmainCanvas.height);
 
-	ctxFin.fillStyle="#fff";
-	ctxFin.fillRect(0,0,twodfinCanvas.width,twodfinCanvas.height);
+	//ctxFin.fillStyle="#fff";
+	//ctxFin.fillRect(0,0,twodfinCanvas.width,twodfinCanvas.height);
 
 	//ctxmain animation
 	ctxMain.beginPath();
@@ -122,60 +124,145 @@ function draw(){
 	ctxMain.strokeStyle="#00ff00";
 	ctxMain.stroke();
 
-	ctxMain.beginPath();
-	ctxMain.setLineDash([0]);
-	ctxMain.lineWidth=3;
-	ctxMain.moveTo(twodmainCanvas.width*(1/3),twodmainCanvas.height/2);
-	ctxMain.lineTo(twodmainCanvas.width*(2/3),twodmainCanvas.height/2);
-	ctxMain.strokeStyle="#0000ff";
-	ctxMain.stroke();
 
-	ctxMain.beginPath();
-	ctxMain.setLineDash([0]);
-	ctxMain.lineWidth=3;
-	ctxMain.moveTo(twodmainCanvas.width*(2/3),twodmainCanvas.height/2-10);
-	ctxMain.lineTo(twodmainCanvas.width*(2/3),twodmainCanvas.height/2+10);
-	ctxMain.strokeStyle="#000000";
-	ctxMain.stroke();
-
-	ctxMain.beginPath();
-	ctxMain.setLineDash([0]);
-	ctxMain.lineWidth=3;
-	ctxMain.moveTo(twodmainCanvas.width*(2/3) - 10,twodmainCanvas.height/2);
-	ctxMain.lineTo(twodmainCanvas.width*(2/3) + 10,twodmainCanvas.height/2);
-	ctxMain.strokeStyle="#000000";
-	ctxMain.stroke();
-
-	ctxMain.fillStyle="#000000";
-	ctxMain.font = "13px Arial";
-	ctxMain.fillText("CG", twodmainCanvas.width*(2/3) + 5, twodmainCanvas.height/2 - 10);
-
-	ctxMain.beginPath();
-	ctxMain.setLineDash([0]);
-	ctxMain.lineWidth=3;
-	ctxMain.moveTo(twodmainCanvas.width*(1/3),twodmainCanvas.height/2-10);
-	ctxMain.lineTo(twodmainCanvas.width*(1/3),twodmainCanvas.height/2+10);
-	ctxMain.strokeStyle="#ff0000";
-	ctxMain.stroke();
-
-	ctxMain.beginPath();
-	ctxMain.setLineDash([0]);
-	ctxMain.lineWidth=3;
-	ctxMain.moveTo(twodmainCanvas.width*(1/3) - 10,twodmainCanvas.height/2);
-	ctxMain.lineTo(twodmainCanvas.width*(1/3) + 10,twodmainCanvas.height/2);
-	ctxMain.strokeStyle="#ff0000";
-	ctxMain.stroke();
-
-	ctxMain.fillStyle="#000000";
-	ctxMain.font = "13px Arial";
-	ctxMain.fillText("CP", twodmainCanvas.width*(1/3) + 5, twodmainCanvas.height/2 - 10);
+	rocketRender.renderLine();
+	rocketRender.renderCG();
+	rocketRender.renderCP();
+	rocketRender.renderForce();
 
 	raf = window.requestAnimationFrame(draw);
 }
 
 raf = window.requestAnimationFrame(draw);
 
-//rocket render
+var rocketRender = {
+	cgxloc: -10,
+	cgyloc: -10,
+	cpxloc: -10,
+	cpyloc: -10,
+	cpthetaoff: 7*Math.PI/180,
+	setLocs: function(){
+		this.cgxloc = twodmainCanvas.width*(2/3);
+		this.cgyloc = twodmainCanvas.height/2;
+		this.cpxloc = twodmainCanvas.width*(1/3);
+		this.cpyloc = twodmainCanvas.height/2;
+	},
+	renderCG: function(){
+		ctxMain.beginPath();
+		ctxMain.setLineDash([0]);
+		ctxMain.lineWidth=3;
+		ctxMain.moveTo(this.cgxloc, this.cgyloc-10);
+		ctxMain.lineTo(this.cgxloc, this.cgyloc+10);
+		ctxMain.strokeStyle="#000000";
+		ctxMain.stroke();
+
+		ctxMain.beginPath();
+		ctxMain.setLineDash([0]);
+		ctxMain.lineWidth=3;
+		ctxMain.moveTo(this.cgxloc-10,this.cgyloc);
+		ctxMain.lineTo(this.cgxloc+10,this.cgyloc);
+		ctxMain.strokeStyle="#000000";
+		ctxMain.stroke();
+
+		ctxMain.fillStyle="#000000";
+		ctxMain.font = "13px Arial";
+		ctxMain.fillText("CG", this.cgxloc + 5, this.cgyloc - 10);
+	},
+	renderCP: function(){
+		this.cpxloc = this.cgxloc - momentArm*Math.cos(this.cpthetaoff)*400;
+		this.cpyloc = this.cgyloc + momentArm*Math.sin(this.cpthetaoff)*400;
+
+		ctxMain.beginPath();
+		ctxMain.setLineDash([0]);
+		ctxMain.lineWidth=3;
+		ctxMain.moveTo(this.cpxloc, this.cpyloc-10);
+		ctxMain.lineTo(this.cpxloc, this.cpyloc+10);
+		ctxMain.strokeStyle="#ff0000";
+		ctxMain.stroke();
+
+		ctxMain.beginPath();
+		ctxMain.setLineDash([0]);
+		ctxMain.lineWidth=3;
+		ctxMain.moveTo(this.cpxloc-10,this.cpyloc);
+		ctxMain.lineTo(this.cpxloc+10,this.cpyloc);
+		ctxMain.strokeStyle="#ff0000";
+		ctxMain.stroke();
+
+		ctxMain.fillStyle="#ff0000";
+		ctxMain.font = "13px Arial";
+		ctxMain.fillText("CP", this.cpxloc + 5, this.cpyloc - 10);
+	},
+	renderLine: function(){
+		ctxMain.beginPath();
+		ctxMain.setLineDash([0]);
+		ctxMain.lineWidth=3;
+		ctxMain.moveTo(this.cpxloc,this.cpyloc);
+		ctxMain.lineTo(this.cgxloc,this.cgyloc);
+		ctxMain.strokeStyle="#0000ff";
+		ctxMain.stroke();
+	},
+	renderForce: function(){
+		if(this.cpthetaoff > 0){
+			ctxMain.beginPath();
+			ctxMain.setLineDash([0]);
+			ctxMain.lineWidth=3;
+			ctxMain.moveTo(this.cpxloc + Math.atan(this.cpthetaoff)*100,this.cpyloc + 100);
+			ctxMain.lineTo(this.cpxloc,this.cpyloc);
+			ctxMain.strokeStyle="#ba6adf";
+			ctxMain.stroke();
+
+			ctxMain.beginPath();
+			ctxMain.setLineDash([0]);
+			ctxMain.lineWidth=3;
+			ctxMain.moveTo(this.cpxloc,this.cpyloc);
+			ctxMain.lineTo(this.cpxloc+10,this.cpyloc + 10);
+			ctxMain.strokeStyle="#ba6adf";
+			ctxMain.stroke();
+
+			ctxMain.beginPath();
+			ctxMain.setLineDash([0]);
+			ctxMain.lineWidth=3;
+			ctxMain.moveTo(this.cpxloc,this.cpyloc);
+			ctxMain.lineTo(this.cpxloc-10,this.cpyloc + 10);
+			ctxMain.strokeStyle="#ba6adf";
+			ctxMain.stroke();
+		}
+		else {
+			ctxMain.beginPath();
+			ctxMain.setLineDash([0]);
+			ctxMain.lineWidth=3;
+			ctxMain.moveTo(this.cpxloc + Math.atan(this.cpthetaoff)*100,-(this.cpyloc + 100));
+			ctxMain.lineTo(this.cpxloc,this.cpyloc);
+			ctxMain.strokeStyle="#ba6adf";
+			ctxMain.stroke();
+
+			ctxMain.beginPath();
+			ctxMain.setLineDash([0]);
+			ctxMain.lineWidth=3;
+			ctxMain.moveTo(this.cpxloc,this.cpyloc);
+			ctxMain.lineTo(this.cpxloc+10,this.cpyloc - 10);
+			ctxMain.strokeStyle="#ba6adf";
+			ctxMain.stroke();
+
+			ctxMain.beginPath();
+			ctxMain.setLineDash([0]);
+			ctxMain.lineWidth=3;
+			ctxMain.moveTo(this.cpxloc,this.cpyloc);
+			ctxMain.lineTo(this.cpxloc-10,this.cpyloc - 10);
+			ctxMain.strokeStyle="#ba6adf";
+			ctxMain.stroke();
+		}
+	},
+	renderThetaOff: function(){
+		ctxMain.beginPath();
+		ctxMain.setLineDash([5]);
+		ctxMain.lineWidth=1;
+		ctxMain.moveTo(this.cpxloc, this.cpyloc);
+		ctxMain.lineTo(this.cgxloc*2, this.cgyloc*0.5);
+		ctxMain.strokeStyle="#00ff00";
+		ctxMain.stroke();
+	}
+}
 
 function round(value, precision) {
     var multiplier = Math.pow(10, precision || 0);
@@ -190,11 +277,14 @@ setInterval(function(){
 		var theta_store = thetaOff;
 		thetaOff = thetaOff - thetaOut + omegaOff*timeStep;
 		omegaOff = (thetaOff - theta_store)/timeStep;
-		console.log("new theta: " + thetaOff);
-		console.log("new omega: " + omegaOff);
+		rocketRender.cpthetaoff = thetaOff;
 
 		thetaDeflection = calculateThetaDef(thetaOut, omegaOff, timeStep, momentOfInertia, momentArm, airDensity, rocketVelocity, dragCoefficent, controlSurfaceArea);
-		console.log("thetaDeflection: " + thetaDeflection);
+		$("#twodfin").append("<b>Current time: </b>" + timeControls.currentTime + "<br>");
+		$("#twodfin").append("<b>New theta: </b> " + thetaOff + "<br>");
+		$("#twodfin").append("<b>New omega: </b> " + omegaOff+ "<br>");
+		$("#twodfin").append("<b class='teal-text'>ThetaDeflection: </b> " + thetaDeflection+ "<br>");
+		$("#twodfin").append("<br>");
 
 		//math for yaw
 

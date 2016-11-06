@@ -59,3 +59,8 @@ html, body {
 #myLink:hover {
 	color: #2ab7a9;
 }
+
+#twodfin {
+	overflow: auto;
+	height: 550px;
+}

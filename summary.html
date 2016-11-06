@@ -1,0 +1,23 @@
+<h1>Summary</h1>
+<br>
+<br>
+
+<p>Our goal was to generate parametrized code to determine the angle of defelction of control surfaces on a four finned rocket given a few basic parameters. Of course, there are many ways to fully define a rocket, but we took a few specific variables as inputs. These variables were
+<ul>
+<li>rocket diameter</li>
+<li>desired cal/stability ratio</li>
+<li>rocket mass</li>
+<li>rocket velocity</li>
+<li>sensor data on pitch and yaw degrees of freedom</li>
+<li>length of the rocket</li>
+<li>the density of air a the desired altitude</li>
+<li>coefficient of drag for the vehicle in question</li>
+<li>desired time step for simulation, for fidelity level in simulation</li>
+<li>benchmarked proportional, integrative, and derivative gains experienced by the rocket--for both pitch and yaw degrees of freedom</li>
+</ul>
+
+From these values, we calculated the desired change in angle between the rocket's pointing vector and the tangent to the desired trajectory at that point.
+<br>
+<br>
+
+Needless to say, this is hard, and we weren't able to progress past the "P" part of a "PID controller" for our simulation, and the number of assumptions we had to make to be able to make any headway on this project may have thrown off our numbers by a lot. The list of assumptions is under the "Assumptions" tab.</p>

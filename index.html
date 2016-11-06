@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+		<title>ACSS</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="shortcut icon" type="image/png" href="img/favicon.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+		<!--FONTS -->
+		<!--<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+
+		<!--CSS -->
+		<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+		<link type="text/css" rel="stylesheet" href="css/style.css"  media="screen,projection"/>
+		<link type="text/css" rel="stylesheet" href="css/nouislider.css"  media="screen,projection"/>
+	</head>
+
+	<body class="Site" onload="setCanvasSizes()" onresize="invalidateCanvases()">
+		<nav class="nav-extended">
+			<div class="nav-wrapper">
+				<a class="brand-logo">ACSS</a>
+				<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a href="assumptions.html">Assumptions</a></li>
+					<li><a href="calculations.html">Calculations</a></li>
+					<li><a href="challenges.html">Challenges</a></li>
+					<li><a href="about.html">About Us</a></li>
+				</ul>
+				<ul class="side-nav" id="mobile-demo">
+					<li><a href="assumptions.html">Assumptions</a></li>
+					<li><a href="calculations.html">Calculations</a></li>
+					<li><a href="challenges.html">Challenges</a></li>
+					<li><a href="about.html">About</a></li>
+				</ul>
+
+				<ul class="tabs tabs-transparent">
+					<li class="tab">
+						<a href="#2D">
+							Pitch
+						</a>
+					</li>
+					<li class="tab">
+						<a href="#3D">
+							Yaw
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<main id="content" class="Site-content">
+			<div class="container">
+				<div id="inputvars">
+					<h5>Input Variables</h5>
+					<div class="row">
+						<div class="input-field col s6 m4 l2">
+							<input id="rocket_diameter" type="text">
+							<label for="rocket_diameter">Rocket Diameter (m)</label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="cal" type="text">
+							<label for="cal">Caliber</label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="mass" type="text">
+							<label for="mass">Mass (kg)</label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="net_aero_forces" type="text">
+							<label for="net_aero_forces">Net Aerodynamic Forces (N)</label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="velocity" type="text">
+							<label for="velocity">Velocity (m/s)</label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="length" type="text">
+							<label for="length">Length (m)</label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="theta_pitch" type="text">
+							<label for="theta_pitch">θ<sub>p</sub></label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="theta_yaw" type="text">
+							<label for="theta_yaw">θ<sub>y</sub></label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="omega_pitch" type="text">
+							<label for="omega_pitch">w<sub>p</sub></label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="omega_yaw" type="text">
+							<label for="omega_yaw">w<sub>y</sub></label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="air_density" type="text">
+							<label for="air_density">Air Density (Kg/m<sup>2</sup>)</label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="drag_coefficent" type="text">
+							<label for="drag_coefficent">Drag Coefficent</label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="time_step" type="text">
+							<label for="time_step">Time Step</label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="proportional_gain" type="text">
+							<label for="proportional_gain">k<sub>p</sub></label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="integrative_gain" type="text">
+							<label for="integrative_gain">k<sub>i</sub></label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="derivative_gain" type="text">
+							<label for="derivative_gain">k<sub>d</sub></label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="control_surface_area" type="text">
+							<label for="control_surface_area">Control Surface Area</label>
+						</div>
+						<div class="input-field col s6 m4 l2">
+							<input id="simulation_length" type="text">
+							<label for="simulation_length">Simulation Length</label>
+						</div>
+					</div>
+					<div class="row center">
+						<a id="continueButton" class="waves-effect waves-light btn">Continue</a>
+						<a id="continueDefaultButton" class="waves-effect waves-light btn" style="margin:5px;">Continue with Default Values</a>
+					</div>
+				</div>
+				<div id="visibilityWrapper" style="display: none">
+					<div id="2D" >
+						<div class="row">
+							<div id="twodmain" class="col s12 m8 l9">
+								Vector Visualization
+								<canvas id="2dmain">
+									This website relies on the canvas element for it's simulations. Unfortunately, your browser doesn't support the canvas element.
+								</canvas>
+							</div>
+							<div id="twodfin" class="col s12 m4 l3">
+								Fin Control Adjustments
+								<canvas id="2dfin">
+									This website relies on the canvas element for it's simulations. Unfortunately, your browser doesn't support the canvas element.
+								</canvas>
+							</div>
+						</div>
+					</div>
+					<div id="3D">
+						<div class="row">
+							<div id="threedmain" class="col s12 m8 l9">
+								<canvas id="3dmain">
+									This website relies on the canvas element for it's simulations. Unfortunately, your browser doesn't support the canvas element.
+								</canvas>
+							</div>
+							<div id="threedfin" class="col s12 m4 l3">
+								<canvas id="3dfin">
+									This website relies on the canvas element for it's simulations. Unfortunately, your browser doesn't support the canvas element.
+								</canvas>
+							</div>
+						</div>
+					</div>
+					<div class="fixed-action-btn toolbar">
+						<a class="btn-floating btn-large teal">
+							<i class="large material-icons">play_arrow</i>
+						</a>
+						<ul>
+							<li class="waves-effect waves-light" style="flex: 0.15" id="play_button_wrapper"><a><i class="material-icons" id="play_button">play_circle_filled</i></a></li>
+							<li class="waves-effect waves-none" style="flex: 0.15; margin: 19px; color: #fff;"><div id="timecode">0:00</div></li>
+							<li class="waves-effect waves-none"><div id="timeline" style="margin: 21px;"></div></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<footer class="page-footer">
+			<div class="footer-copyright">
+				<div class="container">
+					<a id="myLink" href="" target="_blank" style="">Github Source Code</a> <!--TODO: link to the github repo-->
+					<div class="right">
+						© 2016 Ventus Omnipotens
+					</div>
+				</div>
+			</div>
+		</footer>
+
+		<script type="text/javascript">
+			//set global variables
+			var rocketDiameter = 0;
+			var caliber = 0;
+			var rocketMass = 0;
+			var netAeroForces = 0;
+			var rocketVelocity = 0;
+			var rocketLength = 0;
+			var thetaPitch = 0;
+			var thetaYaw = 0;
+			var omegaPitch = 0;
+			var omegaYaw = 0;
+			var airDensity = 0;
+			var dragCoefficent = 0;
+			var timeStep = 0;
+			var proportionalGain = 0;
+			var integrativeGain = 0;
+			var derivativeGain = 0;
+			var controlSurfaceArea = 0;
+			var simulationLength = 0;
+			var momentArm = 0;
+			var momentOfInertia = 0;
+			var integral = 0;
+			var thetaOut = 0;
+			var thetaDeflection = 0;
+			var thetaOff = 0;
+			var omegaOff = 0;
+
+		</script>
+
+		<!--JS -->
+		<script type="text/javascript" src="js/nouislider.min.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="js/materialize.js"></script>
+		<script type="text/javascript" src="js/algorithms.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+	</body>
+</html>

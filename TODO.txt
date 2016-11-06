@@ -1,0 +1,3 @@
+TODO
+
+1) place a big assumption at the top of the page that says: "Assuming rocket with four equally spaced control surfaces".
